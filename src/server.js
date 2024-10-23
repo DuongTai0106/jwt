@@ -4,9 +4,12 @@ const configViewEngine = require('./config/viewEngine');
 const apiRoutes = require('./routes/api');
 const connection = require('./config/database');
 const { getHomepage } = require('./controllers/homeController');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 8888;
+
+app.use(cors());
 
 //config req.body
 app.use(express.json()) // for json
@@ -17,13 +20,13 @@ configViewEngine(app);
 
 //khai báo route
 app.use('/v1/api/', apiRoutes);
-app.use('/', getHomepage);
+// app.use('/', getHomepage);
 
 
 (async () => {
     try {
         //using mongoose
-        // await connection();
+        await connection();
 
         app.listen(port, () => {
             console.log(`Backend Nodejs App listening on port ${port}`)
